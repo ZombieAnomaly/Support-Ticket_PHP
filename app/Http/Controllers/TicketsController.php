@@ -32,6 +32,7 @@ class TicketsController extends Controller
                 'title'     => 'required',
                 'category'  => 'required',
                 'priority'  => 'required',
+                'visibility' => 'required',
                 'message'   => 'required'
             ]);
     
@@ -41,6 +42,7 @@ class TicketsController extends Controller
                 'ticket_id' => strtoupper(str_random(10)),
                 'category_id'  => $request->input('category'),
                 'priority'  => $request->input('priority'),
+                'visibility' => $request->input('visibility'),
                 'message'   => $request->input('message'),
                 'status'    => "Open",
             ]);

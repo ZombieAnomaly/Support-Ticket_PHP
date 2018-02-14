@@ -66,6 +66,23 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('visibility') ? ' has-error' : '' }}">
+                            <label for="visibility" class="col-md-4 control-label">Visibility</label>
+
+                            <div class="col-md-6">
+                                <select id="visibility" type="" class="form-control" name="visibility">
+                                    <option value=1>Public</option>
+                                    <option value=0>Private</option>
+                                </select>
+
+                                @if ($errors->has('visibility'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('visibility') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>             
+
                         <div class="form-group{{ $errors->has('message') ? ' has-error' : '' }}">
                             <label for="message" class="col-md-4 control-label">Message</label>
 
