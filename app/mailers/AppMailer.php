@@ -35,5 +35,3 @@ class AppMailer {
                     ->to($this->to)->subject($this->subject);
         });
     }
-
-?>
