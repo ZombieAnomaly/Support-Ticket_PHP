@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Mailers\AppMailer;
+use App\Comment;
+use Auth;
 
 class CommentsController extends Controller
 {
