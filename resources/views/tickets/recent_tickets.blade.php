@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 
-<?php $nav = true ?>
+<?php
+$nav = true;
+use App\Http\Controllers\VotesController;
+?>
+
 @extends('layouts.app',compact('nav'));
 
 @section('title', 'Public Tickets')
@@ -22,9 +26,11 @@
                             <thead>
                                 <tr>
                                     <th>Category</th>
+                                    <th>ID</th>
                                     <th>Title</th>
                                     <th>Status</th>
                                     <th>Last Updated</th>
+                                    <th>Votes</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,9 +44,17 @@
                                     @endforeach
                                     </td>
                                     <td>
-                                        <a href="{{ url('tickets/'. $ticket->ticket_id) }}">
-                                            #{{ $ticket->ticket_id }} - {{ $ticket->title }}
+                                    <a href="{{ url('tickets/'. $ticket->ticket_id) }}">
+                                            {{ $ticket->ticket_id }}
                                         </a>
+                                    </td>
+                                    <td>{{ $ticket->title }}</td>
+                                    <td>
+                                    @if ($ticket->status === 'Open')
+                                        <span class="label label-success">{{ $ticket->status }}</span>
+                                    @else
+                                        <span class="label label-danger">{{ $ticket->status }}</span>
+                                    @endif
                                     </td>
                                     <td>
                                     @if ($ticket->status === 'Open')
@@ -50,6 +64,28 @@
                                     @endif
                                     </td>
                                     <td>{{ $ticket->updated_at }}</td>
+                                    <td style="display:flex; justify-content:space-around;">
+                                        <form style="" action="{{ url('upVote') }}" method="POST" class="form">
+                                        {{ csrf_field() }}
+                                            <input type="hidden" name="ticket" value="{{ $ticket->ticket_id }}">
+                                            <div style="display:inline" class="form-group">
+                                                <button type="submit" style="border:none;background:transparent;"><h2><i id="DownVote" class="fas fa-thumbs-up"></i></h2></button>
+                                            </div>
+                                        </form>
+
+                                        
+                                        <h1 style=""> {{ VotesController::UpdateTotal( $ticket->ticket_id) }} </h1>
+                                        
+
+                                        <form style="" action="{{ url('downVote') }}" method="POST" class="form">
+                                        {{ csrf_field() }}
+                                            <input type="hidden" name="ticket" value="{{ $ticket->ticket_id }}">
+                                            <div style="display:inline" class="form-group">
+                                            <button type="submit" style="border:none;background:transparent;"><h2><i id="DownVote" class="far fa-thumbs-down"></i></h2></button>
+                                            </div>
+                                        </form>
+
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
