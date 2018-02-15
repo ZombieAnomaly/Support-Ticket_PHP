@@ -1,4 +1,5 @@
-@extends('layouts.app')
+<?php $nav = true ?>
+@extends('layouts.app',compact('nav'));
 
 @section('content')
 <div class="container">

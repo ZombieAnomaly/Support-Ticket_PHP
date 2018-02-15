@@ -50,8 +50,8 @@ class TicketsController extends Controller
             $ticket->save();
     
             $mailer->sendTicketInformation(Auth::user(), $ticket);
-    
-            return redirect()->back()->with("status", "A ticket with ID: #$ticket->ticket_id has been opened.");
+            $url = url('./tickets/' . $ticket->ticket_id); 
+            return redirect()->back()->with("status",' A ticket with ID: <a href="'.$url.'"> ' .$ticket->ticket_id .'</a> has been opened.');
     }
     
     public function userTickets()
@@ -60,6 +60,22 @@ class TicketsController extends Controller
         $categories = Category::all();
     
         return view('tickets.user_tickets', compact('tickets', 'categories'));
+    }
+    public function recentTickets()
+    {
+        $tickets = Ticket::where('visibility',1)
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+        $categories = Category::all();
+    
+        return view('tickets.public_tickets', compact('tickets', 'categories'));
+    }
+    public function publicTickets()
+    {
+        $tickets = Ticket::where('visibility', 1)->paginate(10);
+        $categories = Category::all();
+    
+        return view('tickets.public_tickets', compact('tickets', 'categories'));
     }
 
     public function show($ticket_id)

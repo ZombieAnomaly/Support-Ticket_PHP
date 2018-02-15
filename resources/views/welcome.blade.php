@@ -1,4 +1,11 @@
+<?php
+            use App\Category;
+            use App\Ticket;
+            $tickets = Ticket::where('visibility', 1)->paginate(10);
+            $categories = Category::all();
+?>
 <!doctype html>
+
 <html lang="{{ app()->getLocale() }}">
     <head>
         <meta charset="utf-8">
@@ -13,11 +20,11 @@
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #fff;
+                background-color: #f5f8fa;
                 color: #636b6f;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
-                height: 100vh;
+                height: 100%;
                 margin: 0;
             }
 
@@ -63,13 +70,21 @@
                 margin-bottom: 30px;
             }
         </style>
+        
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <div class="">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                    <a href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        Logout
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                    </form>
                     @else
                         <a href="{{ route('login') }}">Login</a>
                         <a href="{{ route('register') }}">Register</a>
@@ -79,17 +94,17 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Support Ticket System
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="/recent_tickets">Recent Tickets</a>
+                    <a href="/my_tickets">My Tickets</a>
+                    <a href="/new_ticket">Create a Ticket</a>
                 </div>
             </div>
+            <hr>
+            @include('tickets.public_tickets_home',compact('tickets', 'categories'));
         </div>
     </body>
 </html>

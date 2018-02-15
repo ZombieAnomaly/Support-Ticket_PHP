@@ -1,16 +1,20 @@
 <!DOCTYPE html>
+<?php 
+$nav = false;
+use App\Http\Controllers\VotesController;
+?>
 
-<?php $nav = true ?>
 @extends('layouts.app',compact('nav'));
 
-@section('title', 'My Tickets')
+@section('title', 'Public Tickets')
 
 @section('content')
     <div class="row">
         <div class="col-md-10 offset-md-1">
-            <div class="panel panel-default">
+            <div class="panel panel-default" >
+                @include('includes.flash')
                 <div class="panel-heading" align="center">
-                    <h1><i class="fa fa-ticket"> My Tickets</i></h1>
+                    <h1><i class="fa fa-ticket"> Public Tickets</i></h1>
                 </div>
 
                 <div class="panel-body">
@@ -24,8 +28,8 @@
                                     <th>ID</th>
                                     <th>Title</th>
                                     <th>Status</th>
-                                    <th>Visibility</th>
                                     <th>Last Updated</th>
+                                    <th>Votes</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,14 +55,29 @@
                                         <span class="label label-danger">{{ $ticket->status }}</span>
                                     @endif
                                     </td>
-                                    <td>
-                                    @if($ticket->visibility === 0)
-                                        <i class="fas fa-eye-slash"></i>
-                                    @else
-                                        <i class="fas fa-eye"></i>
-                                    @endif
-                                    </td>
                                     <td>{{ $ticket->updated_at }}</td>
+                                    <td style="display:flex; justify-content:space-around;">
+                                        <form style="" action="{{ url('upVote') }}" method="POST" class="form">
+                                        {{ csrf_field() }}
+                                            <input type="hidden" name="ticket" value="{{ $ticket->ticket_id }}">
+                                            <div style="display:inline" class="form-group">
+                                                <button type="submit" style="border:none;background:transparent;"><h2><i id="DownVote" class="fas fa-thumbs-up"></i></h2></button>
+                                            </div>
+                                        </form>
+
+                                        
+                                        <h1 style=""> {{ VotesController::UpdateTotal( $ticket->ticket_id) }} </h1>
+                                        
+
+                                        <form style="" action="{{ url('downVote') }}" method="POST" class="form">
+                                        {{ csrf_field() }}
+                                            <input type="hidden" name="ticket" value="{{ $ticket->ticket_id }}">
+                                            <div style="display:inline" class="form-group">
+                                            <button type="submit" style="border:none;background:transparent;"><h2><i id="DownVote" class="far fa-thumbs-down"></i></h2></button>
+                                            </div>
+                                        </form>
+
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>

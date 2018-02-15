@@ -5,6 +5,7 @@
     <title>Suppor Ticket</title>
 </head>
 <body>
+
     <p>
         {{ $comment->comment }}
     </p>

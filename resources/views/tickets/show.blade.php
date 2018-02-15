@@ -1,11 +1,12 @@
-@extends('layouts.app')
+<?php $nav = true ?>
+@extends('layouts.app',compact('nav'));
 
 @section('title', $ticket->title)
 
 @section('content')
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
+        <div class="col-md-10 offset-md-0" >
+            <div class="panel panel-default" style="padding-left: 10px;" >
                 <div class="panel-heading">
                     #{{ $ticket->ticket_id }} - {{ $ticket->title }}
                 </div>
@@ -23,17 +24,25 @@
                             Status: <span class="label label-danger">{{ $ticket->status }}</span>
                         @endif
                         </p>
+                        <p>
+                        @if ($ticket->visibility === 1)
+                            Visibility: <i class="fas fa-eye"></i>
+                        @else
+                            Visibility: <i class="fas fa-eye-slash"></i>
+                        @endif
+                        </p>
                         <p>Created on: {{ $ticket->created_at->diffForHumans() }}</p>
                     </div>
 
-                    <hr>
+                
 
                     <div class="comments">
                         @foreach ($comments as $comment)
                             <div class="panel panel-@if($ticket->user->id === $comment->user_id) {{"default"}}@else{{"success"}}@endif">
+                            <hr>
                                 <div class="panel panel-heading">
-                                    {{ $comment->user->name }}
-                                    <span class="pull-right">{{ $comment->created_at->format('Y-m-d') }}</span>
+                                    <u>Author:</u> {{ $comment->user->name }}
+                                    <span class="pull-right"><u>{{ $comment->created_at->format('Y-m-d') }}</u></span>
                                 </div>
 
                                 <div class="panel panel-body">
