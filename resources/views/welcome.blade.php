@@ -101,9 +101,11 @@
                     <a href="/recent_tickets">Recent Tickets</a>
                     <a href="/my_tickets">My Tickets</a>
                     <a href="/new_ticket">Create a Ticket</a>
-                    @if (Auth::user()->is_admin)
-                    <a href="/admin/tickets">Admin. Dashboard</a>
-                    @endif
+                    @auth
+                        @if (Auth::user()->is_admin)
+                        <a href="/admin/tickets">Admin. Dashboard</a>
+                        @endif
+                    @endauth
                 </div>
             </div>
             <hr>
