@@ -68,7 +68,7 @@ class TicketsController extends Controller
         ->paginate(10);
         $categories = Category::all();
     
-        return view('tickets.public_tickets', compact('tickets', 'categories'));
+        return view('tickets.recent_tickets', compact('tickets', 'categories'));
     }
     public function publicTickets()
     {

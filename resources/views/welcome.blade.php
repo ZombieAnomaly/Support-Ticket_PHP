@@ -101,10 +101,13 @@
                     <a href="/recent_tickets">Recent Tickets</a>
                     <a href="/my_tickets">My Tickets</a>
                     <a href="/new_ticket">Create a Ticket</a>
+                    @if (Auth::user()->is_admin)
+                    <a href="/admin/tickets">Admin. Dashboard</a>
+                    @endif
                 </div>
             </div>
             <hr>
-            @include('tickets.public_tickets_home',compact('tickets', 'categories'));
+            @include('tickets.public_tickets_list',compact('tickets', 'categories'));
         </div>
     </body>
 </html>

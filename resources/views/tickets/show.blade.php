@@ -51,7 +51,7 @@
                             </div>
                         @endforeach
                     </div>  
-  
+                    @if ($ticket->status === "Open" || Auth::user()->is_admin)
                     <div class="comment-form">
                         <form action="{{ url('comment') }}" method="POST" class="form">
                             {!! csrf_field() !!}
@@ -73,6 +73,7 @@
                             </div>
                         </form>
                 </div>
+                @endif
             </div>
         </div>
     </div>
