@@ -56,13 +56,6 @@ use App\Http\Controllers\VotesController;
                                         <span class="label label-danger">{{ $ticket->status }}</span>
                                     @endif
                                     </td>
-                                    <td>
-                                    @if ($ticket->status === 'Open')
-                                        <span class="label label-success">{{ $ticket->status }}</span>
-                                    @else
-                                        <span class="label label-danger">{{ $ticket->status }}</span>
-                                    @endif
-                                    </td>
                                     <td>{{ $ticket->updated_at }}</td>
                                     <td style="display:flex; justify-content:space-around;">
                                         <form style="" action="{{ url('upVote') }}" method="POST" class="form">
