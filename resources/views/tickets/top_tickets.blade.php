@@ -1,21 +1,19 @@
 <!DOCTYPE html>
-
-<?php
+<?php 
 $nav = true;
 use App\Http\Controllers\VotesController;
 ?>
 
 @extends('layouts.app',compact('nav'));
 
-@section('title', 'Recent Tickets')
-
+@section('title', 'Top Tickets')
 @section('content')
     <div class="row">
         <div class="col-md-10 offset-md-1">
-            <div class="panel panel-default">
-            
+            <div class="panel panel-default" >
+                @include('includes.flash')
                 <div class="panel-heading" align="center">
-                    <h1><i class="fa fa-ticket"> Recent Tickets</i></h1>
+                    <h1><i class="fa fa-ticket"> Top Tickets</i></h1>
                 </div>
 
                 <div class="panel-body">
@@ -61,26 +59,20 @@ use App\Http\Controllers\VotesController;
                                         <form style="" action="{{ url('upVote') }}" method="POST" class="form">
                                         {{ csrf_field() }}
                                             <input type="hidden" name="ticket" value="{{ $ticket->ticket_id }}">
+                                            <input type="hidden" name="view" value="public_tickets_list">
                                             <div style="display:inline" class="form-group">
                                                 <button type="submit" style="border:none;background:transparent;"><h2><i id="DownVote" class="fas fa-thumbs-up"></i></h2></button>
                                             </div>
                                         </form>
 
-                                        
                                         <?php $ticketTotal = 0; ?>
-                                        @foreach($votes as $v)
-                                            @if ($v->ticket_id === $ticket->ticket_id AND $v->up == 1)
-                                                <?php $ticketTotal += 1 ?>
-                                            @elseif ($v->ticket_id === $ticket->ticket_id AND $v->down == 1)
-                                                <?php $ticketTotal -= 1 ?>
-                                            @endif
-                                        @endforeach
-                                        <h1 style=""> {{ $ticketTotal }}</h1>
-                                        
+
+                                        <h1 style=""> {{ $ticket->TotalVotes }}</h1>
 
                                         <form style="" action="{{ url('downVote') }}" method="POST" class="form">
                                         {{ csrf_field() }}
                                             <input type="hidden" name="ticket" value="{{ $ticket->ticket_id }}">
+                                            <input type="hidden" name="view" value="public_tickets_list">
                                             <div style="display:inline" class="form-group">
                                             <button type="submit" style="border:none;background:transparent;"><h2><i id="DownVote" class="far fa-thumbs-down"></i></h2></button>
                                             </div>
@@ -92,7 +84,7 @@ use App\Http\Controllers\VotesController;
                             </tbody>
                         </table>
 
-                        {{ $tickets->render() }}
+                        
                     @endif
                 </div>
             </div>

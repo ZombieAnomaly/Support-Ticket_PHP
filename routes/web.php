@@ -11,17 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
 
 Auth::routes();
-
+Route::get('/', 'TicketsController@indexPublic');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('new_ticket', 'TicketsController@create');
 Route::post('new_ticket', 'TicketsController@store');
 Route::get('my_tickets', 'TicketsController@userTickets');
 Route::get('recent_tickets', 'TicketsController@recentTickets');
+Route::get('top_tickets', 'TicketsController@topTickets');
 Route::get('public_tickets', 'TicketsController@publicTickets');
 Route::get('tickets/{ticket_id}', 'TicketsController@show');
 Route::post('comment', 'CommentsController@postComment');

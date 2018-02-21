@@ -1,8 +1,6 @@
 <?php
             use App\Category;
             use App\Ticket;
-            $tickets = Ticket::where('visibility', 1)->paginate(10);
-            $categories = Category::all();
 ?>
 <!doctype html>
 
@@ -99,6 +97,7 @@
 
                 <div class="links">
                     <a href="/recent_tickets">Recent Tickets</a>
+                    <a href="/top_tickets">Top Tickets</a>
                     <a href="/my_tickets">My Tickets</a>
                     <a href="/new_ticket">Create a Ticket</a>
                     @auth

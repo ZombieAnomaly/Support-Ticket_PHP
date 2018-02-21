@@ -6,30 +6,29 @@ use Illuminate\Http\Request;
 use App\Votes;
 use App\Ticket;
 use illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\libs\DataBaseInterfaces\VotesI as VoteInterface;
+
 
 class VotesController extends Controller
 {
-    public function __construct()
+    protected $votesObject;
+    
+    public function __construct(VoteInterface $VI)
     {
         $this->middleware('auth');
+        $this->votesObject = $VI;
     }
 
     public function upVote(Request $request)
     {
-
         $this->validate($request, [
             'ticket'   => 'required'
         ]);
 
-        $vote = Votes::updateOrCreate([
-            'user_id'   => Auth::user()->id,
-            'ticket_id'  => $request->input('ticket'),
-        ],[
-            'up' => 1,
-            'down' => 0,
-        ]);
-
+        $this->votesObject->Upvote(
+            $request->input('ticket'),
+            Auth::user()->id
+        );
         return redirect()->back()->with("status", "Your Up vote has been counted.");
     }
 
@@ -39,35 +38,24 @@ class VotesController extends Controller
             'ticket'   => 'required'
         ]);
         
-        $vote = Votes::updateOrCreate([
-            'user_id'   => Auth::user()->id,
-            'ticket_id'  => $request->input('ticket'),
-        ],[
-            'up' => 0,
-            'down' => 1,
-        ]);
-
+        $this->votesObject->Downvote(
+            $request->input('ticket'),
+            Auth::user()->id
+        );
         return redirect()->back()->with("status", "Your Down vote has been counted.");
     }
 
-    public static function UpdateTotal($ticket_id)
+    public function UpdateTotal($ticket_id)
     {
-        
+        $total = $this->votesObject->Totalvotes($ticket_id);
 
-        $upvotes = DB::table('Votes')
-            ->where('ticket_id', $ticket_id)
-            ->where('up',"=", 1)
-            ->count();
-
-        $downvotes = DB::table('Votes')
-        ->where('ticket_id', $ticket_id)
-        ->where('down',"=", 1)
-        ->count();
-
-        $total = $upvotes - $downvotes;
         return $total;
         
     }
 
 
 }
+
+
+//remove index function. Instead get all votes on the ticket controller and pass data to view from TicketController@index.
+//keep upvote and downvotes the same.

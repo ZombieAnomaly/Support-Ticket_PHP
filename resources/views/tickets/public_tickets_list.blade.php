@@ -7,7 +7,6 @@ use App\Http\Controllers\VotesController;
 @extends('layouts.app',compact('nav'));
 
 @section('title', 'Public Tickets')
-
 @section('content')
     <div class="row">
         <div class="col-md-10 offset-md-1">
@@ -60,18 +59,26 @@ use App\Http\Controllers\VotesController;
                                         <form style="" action="{{ url('upVote') }}" method="POST" class="form">
                                         {{ csrf_field() }}
                                             <input type="hidden" name="ticket" value="{{ $ticket->ticket_id }}">
+                                            <input type="hidden" name="view" value="public_tickets_list">
                                             <div style="display:inline" class="form-group">
                                                 <button type="submit" style="border:none;background:transparent;"><h2><i id="DownVote" class="fas fa-thumbs-up"></i></h2></button>
                                             </div>
                                         </form>
 
-                                        
-                                        <h1 style=""> {{ VotesController::UpdateTotal( $ticket->ticket_id) }} </h1>
-                                        
+                                        <?php $ticketTotal = 0; ?>
+                                        @foreach($votes as $v)
+                                            @if ($v->ticket_id === $ticket->ticket_id AND $v->up == 1)
+                                                <?php $ticketTotal += 1 ?>
+                                            @elseif ($v->ticket_id === $ticket->ticket_id AND $v->down == 1)
+                                                <?php $ticketTotal -= 1 ?>
+                                            @endif
+                                        @endforeach
+                                        <h1 style=""> {{ $ticketTotal }}</h1>
 
                                         <form style="" action="{{ url('downVote') }}" method="POST" class="form">
                                         {{ csrf_field() }}
                                             <input type="hidden" name="ticket" value="{{ $ticket->ticket_id }}">
+                                            <input type="hidden" name="view" value="public_tickets_list">
                                             <div style="display:inline" class="form-group">
                                             <button type="submit" style="border:none;background:transparent;"><h2><i id="DownVote" class="far fa-thumbs-down"></i></h2></button>
                                             </div>
